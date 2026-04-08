@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+
+  mysql:
+    image: mysql:8
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d
+
+  laravel:
+    build: ./back_laravel
+    container_name: laravel_app
+    ports:
+      - "8000:80"
+    depends_on:
+      - mysql
+    environment:
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: usuarios_bd
+      DB_USERNAME: root
+      DB_PASSWORD: root
+
+  spring:
+    build: ./back_spring
+    container_name: spring_app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/eventos_bd
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+
+  frontend:
+    build: ./front
+    container_name: react_app
+    ports:
+      - "5173:80"
+    depends_on:
+      - laravel
+      - spring
+
+volumes:
+  db_data:
