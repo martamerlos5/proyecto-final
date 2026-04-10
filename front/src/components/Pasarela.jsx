@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "./shared/Header";
 import Footer from "./shared/Footer";
+import { toast } from "react-toastify";
+
 
 function Pasarela() {
 
@@ -49,7 +51,7 @@ function Pasarela() {
 
   const aplicarCupon = async () => {
     if (!codigoCupon) {
-      alert("Escribe un código");
+      toast.error("Escribe un código");
       return;
     }
 
@@ -74,14 +76,14 @@ function Pasarela() {
       if (cuponValido) {
         setDescuento(subtotal * 0.10);
         setCuponAplicado(true);
-        alert("¡Código aplicado! Se ha aplicado un 10% de descuento.");
+        toast.success("¡Código aplicado! Se ha aplicado un 10% de descuento.");
       } else {
-        alert("El código no es válido o ya ha sido utilizado.");
+        toast.error("El código no es válido o ya ha sido utilizado.");
       }
 
     } catch (error) {
       console.error("Error validando cupón:", error);
-      alert("No se pudo validar el cupón.");
+      toast.error("No se pudo validar el cupón.");
     }
   };
 
@@ -99,18 +101,23 @@ function Pasarela() {
       codigo_postal: ev.target.codigo_postal.value || usuario.codigo_postal
     };
 
+    if (!datos.nombre) {
+      toast.error("Introduce un nombre");
+      return;
+    }
+
     if (!datos.email) {
-      alert("Introduce un email");
+      toast.error("Introduce un email");
       return;
     }
 
     if (!datos.direccion) {
-      alert("Introduce una dirección");
+      toast.error("Introduce una dirección");
       return;
     }
 
     if (!metodoPago) {
-      alert("Selecciona un método de pago");
+      toast.error("Selecciona un método de pago");
       return;
     }
 
@@ -120,22 +127,22 @@ function Pasarela() {
       const caducidadValida = /^(0[1-9]|1[0-2])\/\d{2}$/.test(tarjeta.caducidad);
 
       if (!numeroValido) {
-        alert("El número de tarjeta debe tener 16 dígitos");
+        toast.error("El número de tarjeta debe tener 16 dígitos");
         return;
       }
 
       if (!cvvValido) {
-        alert("El CVV debe tener 3 dígitos");
+        toast.error("El CVV debe tener 3 dígitos");
         return;
       }
 
       if (!caducidadValida) {
-        alert("Formato de caducidad incorrecto (MM/AA)");
+        toast.error("Formato de caducidad incorrecto (MM/AA)");
         return;
       }
 
       if (!tarjeta.nombre) {
-        alert("Introduce el nombre de la tarjeta");
+        toast.error("Introduce el nombre de la tarjeta");
         return;
       }
     }
@@ -145,7 +152,7 @@ function Pasarela() {
         /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(paypalEmail);
 
       if (!emailValido) {
-        alert("Introduce un email válido de PayPal");
+        toast.error("Introduce un email válido de PayPal");
         return;
       }
     }
@@ -154,7 +161,7 @@ function Pasarela() {
       const telefonoValido = /^\d{9}$/.test(bizumTelefono);
 
       if (!telefonoValido) {
-        alert("El teléfono de Bizum debe tener 9 dígitos");
+        toast.error("El teléfono de Bizum debe tener 9 dígitos");
         return;
       }
     }
@@ -195,13 +202,13 @@ function Pasarela() {
 
       localStorage.removeItem(cestaKey);
 
-      alert("Compra realizada correctamente");
+      toast.success("Compra realizada correctamente");
 
       navigate("/");
 
     } catch (error) {
       console.error(error);
-      alert("Error en el pago");
+      toast.error("Error en el pago");
     }
   };
 
@@ -218,42 +225,42 @@ function Pasarela() {
 
             <div className="campo">
               <label>Nombre</label>
-              <input name="nombre" defaultValue={usuario?.nombre} />
+              <input name="nombre" defaultValue={usuario?.nombre} required />
             </div>
 
             <div className="campo">
               <label>Primer apellido</label>
-              <input name="apellido1" defaultValue={usuario?.apellido1} />
+              <input name="apellido1" defaultValue={usuario?.apellido1} required />
             </div>
 
             <div className="campo">
               <label>Email</label>
-              <input name="email" defaultValue={usuario?.email} />
+              <input name="email" defaultValue={usuario?.email} required />
             </div>
 
             <div className="campo">
               <label>Móvil</label>
-              <input name="movil" defaultValue={usuario?.movil} />
+              <input name="movil" defaultValue={usuario?.movil} required />
             </div>
 
             <div className="campo">
               <label>Provincia</label>
-              <input name="provincia" defaultValue={usuario?.provincia} />
+              <input name="provincia" defaultValue={usuario?.provincia} required />
             </div>
 
             <div className="campo">
               <label>Localidad</label>
-              <input name="localidad" defaultValue={usuario?.localidad} />
+              <input name="localidad" defaultValue={usuario?.localidad} required />
             </div>
 
             <div className="campo">
               <label>Dirección</label>
-              <input name="direccion" defaultValue={usuario?.direccion} />
+              <input name="direccion" defaultValue={usuario?.direccion} required />
             </div>
 
             <div className="campo">
               <label>Código postal</label>
-              <input name="codigo_postal" defaultValue={usuario?.codigo_postal} />
+              <input name="codigo_postal" defaultValue={usuario?.codigo_postal} required />
             </div>
 
             <div className="campo">
@@ -322,7 +329,7 @@ function Pasarela() {
                 <div>
                   <input type="text" placeholder="Código" value={codigoCupon} onChange={(e) => setCodigoCupon(e.target.value)} disabled={cuponAplicado} />
 
-                  <button type="button" className="boton" onClick={aplicarCupon}disabled={cuponAplicado}>
+                  <button type="button" className="boton" onClick={aplicarCupon} disabled={cuponAplicado}>
                     {cuponAplicado ? "Aplicado" : "Aplicar"}
                   </button>
                 </div>

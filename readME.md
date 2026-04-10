@@ -134,7 +134,7 @@ Estas configuraciones están comentadas en los archivos originales.
 
 
 
-Para desplegar: docker-compose up --build
+Para desplegar: docker-compose up --build o docker-compose up -d --build
 
 
 
@@ -157,3 +157,5 @@ Para desplegar: docker-compose up --build
 
 - Asegurarse de tener Node.js, PHP, Composer y Java instalados
 - Docker es la forma recomendada de ejecución
+- No he podido implementar FormData para subir las imágenes, así que las imágenes que se quieran subir para crear/editar los eventos
+deben estar en la carpeta 'public' del frontend. A veces se quedan pillados los cambios, para eso hay que hacer 'docker-compose up -d --build' en el proyecto.

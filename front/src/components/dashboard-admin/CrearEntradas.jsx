@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function CrearEntradas() {
     const { id } = useParams();
@@ -39,12 +41,13 @@ function CrearEntradas() {
 
             if (!res.ok) throw new Error("Error al crear entrada");
 
-            alert("Entrada creada correctamente");
+            toast.success("Entrada creada correctamente");
 
             navigate(`/dashboard-admin/eventos/editar/${id}/entradas/ver`);
 
         } catch (error) {
             console.error(error);
+            toast.error("Error al crear la entrada");
         }
     };
 
@@ -56,30 +59,52 @@ function CrearEntradas() {
                 <form onSubmit={procesa} className="form_registro">
                     <div className="campo">
                         <label> Nombre </label>
-                        <input name="nombre" value={entrada.nombre} onChange={handleChange} placeholder="Nombre" required />
-
+                        <input 
+                            name="nombre" 
+                            value={entrada.nombre} 
+                            onChange={handleChange} 
+                            placeholder="Nombre" 
+                            required 
+                        />
                     </div>
 
                     <div className="campo">
                         <label> Descripción </label>
-                        <input name="descripcion" value={entrada.descripcion} onChange={handleChange} placeholder="Descripción" />
-
+                        <input 
+                            name="descripcion" 
+                            value={entrada.descripcion} 
+                            onChange={handleChange} 
+                            placeholder="Descripción" 
+                        />
                     </div>
 
                     <div className="campo">
                         <label> Precio </label>
-                        <input type="number" name="precio" value={entrada.precio} onChange={handleChange} placeholder="Precio" required />
-
+                        <input 
+                            type="number" 
+                            name="precio" 
+                            value={entrada.precio} 
+                            onChange={handleChange} 
+                            placeholder="Precio" 
+                            required 
+                        />
                     </div>
 
                     <div className="campo">
                         <label> Stock total </label>
-                        <input type="number" name="stockTotal" value={entrada.stockTotal} onChange={handleChange} placeholder="Stock" required />
-
+                        <input 
+                            type="number" 
+                            name="stockTotal" 
+                            value={entrada.stockTotal} 
+                            onChange={handleChange} 
+                            placeholder="Stock" 
+                            required 
+                        />
                     </div>
 
-
-                    <button type="submit" className="boton_admin boton">Crear</button>
+                    <button type="submit" className="boton_admin boton">
+                        Crear
+                    </button>
                 </form>
             </div>
         </section>

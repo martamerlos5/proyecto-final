@@ -75,9 +75,8 @@ public class EventoController {
     public ResponseEntity<List<EventoDTO>> obtenerEventosPorLocalidad(@PathVariable Long id) {
         List<EventoDTO> eventos = servicio.obtenerEventosPorLocalidad(id);
         return ResponseEntity.ok(eventos);
- 
-    }
 
+    }
 
     // ------------- POST -------------
 
@@ -87,6 +86,34 @@ public class EventoController {
         EventoDTO evento = servicio.crearEvento(eventoDTO);
         return ResponseEntity.ok(evento);
     }
+
+    // @PostMapping(consumes = "multipart/form-data")
+    // public ResponseEntity<EventoDTO> crearEvento(
+    // @RequestParam String nombre,
+    // @RequestParam(required = false) String descripcion,
+    // @RequestParam String fecha_inicio,
+    // @RequestParam String fecha_fin,
+    // @RequestParam String hora_inicio,
+    // @RequestParam String hora_fin,
+    // @RequestParam String lugar,
+    // @RequestParam Long localidadId,
+    // @RequestParam(required = false) List<Long> categoriasId,
+    // @RequestParam(required = false) MultipartFile imagen) {
+
+    // EventoDTO dto = servicio.crearEventoMultipart(
+    // nombre,
+    // descripcion,
+    // fecha_inicio,
+    // fecha_fin,
+    // hora_inicio,
+    // hora_fin,
+    // lugar,
+    // localidadId,
+    // categoriasId,
+    // imagen);
+
+    // return ResponseEntity.ok(dto);
+    // }
 
     // ------------- PUT -------------
 

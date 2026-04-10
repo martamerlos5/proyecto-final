@@ -43,6 +43,8 @@ function Eventos() {
                     evento.estado === "Finalizado" || evento.estado === "Cancelado" ? "desactivado": ""}
                 />
 
+                {/* <img src={`http://localhost:8080/uploads/${evento.imagen}`} /> */}
+
                 {(evento.estado === "Finalizado" || evento.estado === "Cancelado") && (
                   <div className="overlay-estado">
                     {evento.estado}

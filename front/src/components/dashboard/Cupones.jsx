@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Cupones() {
   const { usuario } = useOutletContext();
@@ -41,13 +43,18 @@ function Cupones() {
         return res.json();
       })
       .then(() => {
-        alert("Te has dado de baja correctamente");
+        toast.success("Te has dado de baja correctamente");
         setCupones([]);
       })
       .catch(err => {
         console.error("Error al darse de baja:", err);
-        alert("No se pudo completar la baja");
+        toast.error("No se pudo completar la baja");
       });
+  }
+
+  function copiarCodigo(codigo) {
+    navigator.clipboard.writeText(codigo);
+    toast.success("¡Código copiado!");
   }
 
   if (cargando) {
@@ -75,7 +82,10 @@ function Cupones() {
       ) : (
         <div className="cupones_grid">
           {cupones.map((cupon) => (
-            <div key={cupon.id} className={`cupon_tarjeta ${cupon.usado == 1 ? "cupon_usado" : ""}`}>
+            <div
+              key={cupon.id}
+              className={`cupon_tarjeta ${cupon.usado == 1 ? "cupon_usado" : ""}`}
+            >
 
               <div className="cupon_contenido">
 
@@ -94,19 +104,19 @@ function Cupones() {
 
                   <button
                     className="boton_copiar"
-                    onClick={() => {
-                      navigator.clipboard.writeText(cupon.codigo);
-                      alert("¡Código copiado!");
-                    }}
-                    disabled={cupon.usado == 1}>
+                    onClick={() => copiarCodigo(cupon.codigo)}
+                    disabled={cupon.usado == 1}
+                  >
                     {cupon.usado == 1 ? "YA CANJEADO" : "COPIAR CÓDIGO"}
                   </button>
                 </div>
+
               </div>
 
               {cupon.usado == 1 && (
                 <div className="sello_usado">CANJEADO</div>
               )}
+
             </div>
           ))}
         </div>

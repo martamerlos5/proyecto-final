@@ -75,9 +75,9 @@ function PasswordCambiar() {
         <h2>CAMBIAR CONTRASEÑA</h2>
 
         <form onSubmit={procesa}>
-          <input type="password" name="password" placeholder="Nueva contraseña*" required />
+          <input type="password" name="password" placeholder="Nueva contraseña*"  minLength={5} required />
 
-          <input type="password" name="password_confirmation" placeholder="Confirmar contraseña*" required />
+          <input type="password" name="password_confirmation" placeholder="Confirmar contraseña*" minLength={5} required />
 
           <button type="submit" className="boton"> Cambiar contraseña </button>
         </form>

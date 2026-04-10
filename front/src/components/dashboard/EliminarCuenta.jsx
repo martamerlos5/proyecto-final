@@ -1,11 +1,14 @@
 import { useNavigate, useOutletContext } from "react-router-dom"
 
+import { toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+
 function EliminarCuenta() {
 
     const { usuario } = useOutletContext()
     const navigate = useNavigate();
 
-    function procesa() {
+    function eliminarCuenta() {
         const url = `http://localhost:8000/api/usuario/${usuario.id}`
 
         fetch(url, {
@@ -19,21 +22,44 @@ function EliminarCuenta() {
                 console.log(response);
 
                 if (response.mensaje) {
-                    alert("Cuenta eliminada correctamente");
+                    toast.success("Cuenta eliminada correctamente");
 
-                    //    borrar usuario de localStorage
+                    // borrar usuario de localStorage
                     localStorage.removeItem("usuario");
 
                     // redirigir al index cuando se elimine
                     navigate("/");
                 } else {
-                    alert("Error al eliminar la cuenta");
+                    toast.error("Error al eliminar la cuenta");
                 }
             })
             .catch(error => {
                 console.error(error);
-                alert("Error de conexión");
+                toast.error("Error de conexión");
             });
+    }
+
+    function procesa() {
+
+        toast.warn(
+            ({ closeToast }) => (
+                <div className="estilos-warn">
+                    <p>¿Seguro que quieres eliminar tu cuenta?</p>
+                    <p><b>Esta acción no se puede deshacer</b></p>
+
+                    <div style={{ marginTop: "10px", display: "flex", gap: "10px" }}>
+                        <button className="boton" onClick={() => {eliminarCuenta(); closeToast();}}>Sí, eliminar</button>
+
+                        <button className="boton" onClick={closeToast}>Volver atrás</button>
+                    </div>
+                </div>
+            ),
+            {
+                autoClose: false,
+                closeOnClick: false,
+                draggable: false
+            }
+        );
     }
 
     return (

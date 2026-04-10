@@ -1,6 +1,8 @@
 import Footer from "./shared/Footer";
 import Header from "./shared/Header";
 import Newsletter from "./shared/Newsletter";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Contacto() {
 
@@ -28,18 +30,15 @@ function Contacto() {
         throw new Error("Error al enviar el mensaje")
       }
 
-      alert("Mensaje enviado correctamente")
+      toast.success("Mensaje enviado correctamente")
       ev.target.reset();
       console.log(obj)
+
     } catch (error) {
       console.error(error)
-      alert("Error al enviar el mensaje")
+      toast.error("Error al enviar el mensaje")
     }
   }
-
-
-
-
 
   return (
     <>
@@ -69,8 +68,9 @@ function Contacto() {
 
           <textarea name="mensaje" placeholder="Mensaje...*" required></textarea>
 
-          <button type="submit" className="boton boton_centrado"> Enviar </button>
-
+          <button type="submit" className="boton boton_centrado">
+            Enviar
+          </button>
 
         </form>
       </section>

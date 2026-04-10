@@ -1,6 +1,10 @@
 package com.spring.back_spring.Service.ServiceImpl;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -9,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.back_spring.DTO.EventoDTO;
 import com.spring.back_spring.Entity.Categoria;
@@ -191,6 +196,79 @@ public class EventoServiceImpl implements EventoService {
 
     }
 
+    // @Override
+    // public EventoDTO crearEventoMultipart(
+    // String nombre,
+    // String descripcion,
+    // String fecha_inicio,
+    // String fecha_fin,
+    // String hora_inicio,
+    // String hora_fin,
+    // String lugar,
+    // Long localidadId,
+    // List<Long> categoriasId,
+    // MultipartFile imagen) {
+
+    // Evento evento = new Evento();
+
+    // evento.setNombre(nombre);
+    // evento.setDescripcion(descripcion);
+    // evento.setFecha_inicio(LocalDate.parse(fecha_inicio));
+    // evento.setFecha_fin(LocalDate.parse(fecha_fin));
+    // evento.setHora_inicio(LocalTime.parse(hora_inicio));
+    // evento.setHora_fin(LocalTime.parse(hora_fin));
+    // evento.setLugar(lugar);
+    // evento.setEstado(Estado.Activo);
+
+    // validarFechasYHoras(evento);
+
+    // // localidad
+    // Localidad localidad = new Localidad();
+    // localidad.setId(localidadId);
+    // evento.setLocalidad(localidad);
+
+    // // categorias
+    // if (categoriasId != null) {
+    // List<Categoria> categorias = categoriasId.stream().map(id -> {
+    // Categoria c = new Categoria();
+    // c.setId(id);
+    // return c;
+    // }).collect(Collectors.toList());
+
+    // evento.setCategorias(categorias);
+    // }
+
+    // // guardar imagen
+    // if (imagen != null && !imagen.isEmpty()) {
+    // try {
+
+    // String nombreArchivo = System.currentTimeMillis() + "_" +
+    // imagen.getOriginalFilename();
+
+    // // para que pille la ruta real del poroyecto
+    // // Path ruta = Paths.get(System.getProperty("user.dir"), "uploads");
+    // Path ruta = Paths.get("uploads").toAbsolutePath();
+
+    // Files.createDirectories(ruta);
+
+    // Path rutaCompleta = ruta.resolve(nombreArchivo);
+
+    // Files.copy(imagen.getInputStream(), rutaCompleta);
+
+    // evento.setImagen(nombreArchivo);
+
+    // System.out.println("Imagen: " + imagen.getOriginalFilename());
+    // System.out.println("Ruta: " + rutaCompleta.toAbsolutePath());
+
+    // } catch (Exception e) {
+    // throw new RuntimeException("Error al guardar la imagen");
+    // }
+    // }
+
+    // Evento nuevo = repositorio.save(evento);
+    // return mapper.toDTO(nuevo);
+    // }
+
     // ------------- PUT -------------
 
     // PUT: actualizar evento (el evento viene en formato JSON) -> admins
@@ -258,6 +336,5 @@ public class EventoServiceImpl implements EventoService {
         repositorio.delete(evento);
 
     }
-
 
 }

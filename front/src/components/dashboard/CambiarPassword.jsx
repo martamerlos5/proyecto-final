@@ -1,5 +1,9 @@
 import { useOutletContext } from "react-router-dom"
 
+
+import { toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+
 function CambiarPassword() {
     const { usuario } = useOutletContext()
 
@@ -10,14 +14,13 @@ function CambiarPassword() {
         const password_confirmation = ev.target.passwordRepetida.value
 
         if (password !== password_confirmation) {
-            alert("Las contraseñas no coinciden")
+            toast.error("Las contraseñas no coinciden")
             return;
         }
 
         const datos = {
             password, password_confirmation
         }
-
 
         const datosJSON = JSON.stringify(datos);
         const url = `http://localhost:8000/api/usuario/password/${usuario.id}`
@@ -35,15 +38,15 @@ function CambiarPassword() {
                 console.log(response);
 
                 if (response.mensaje) {
-                    alert("Contraseña cambiada correctamente");
+                    toast.success("Contraseña cambiada correctamente");
                     ev.target.reset();
                 } else {
-                    alert("Error al cambiar contraseña");
+                    toast.error("Error al cambiar contraseña");
                 }
             })
             .catch(error => {
                 console.error(error);
-                alert("Error de conexión");
+                toast.error("Error de conexión");
             });
 
     }
@@ -58,15 +61,13 @@ function CambiarPassword() {
 
                     <div className="campo">
                         <label>Nueva contraseña:</label>
-                        <input type="password" name="password" />
+                        <input type="password" name="password" minLength={5} />
                     </div>
-
 
                     <div className="campo">
                         <label>Repite la nueva contraseña:</label>
-                        <input type="password" name="passwordRepetida" />
+                        <input type="password" name="passwordRepetida" minLength={5}/>
                     </div>
-
 
                     <button className="boton boton-dashboard">Cambiar contraseña</button>
 

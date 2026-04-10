@@ -1,4 +1,6 @@
 import { useOutletContext } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function EditarPerfil() {
     // con el useOutletContext se puede acceder al usuario que se ha pasado desde Dashboard con Outlet
@@ -34,7 +36,7 @@ function EditarPerfil() {
                 console.log(response);
 
                 if (response.usuario) {
-                    alert("Datos actualizados correctamente");
+                    toast.success("Datos actualizados correctamente");
 
                     // actualizar localStorage
                     localStorage.setItem("usuario", JSON.stringify(response.usuario))
@@ -42,12 +44,12 @@ function EditarPerfil() {
                     // recargar vista
                     window.location.reload();
                 } else {
-                    alert(response.error || "Error al actualizar");
+                    toast.error(response.error || "Error al actualizar");
                 }
             })
             .catch(error => {
                 console.error(error)
-                alert("Error de conexión")
+                toast.error("Error de conexión")
             })
 
 
@@ -96,8 +98,7 @@ function EditarPerfil() {
                         <input type="text" name="movil" defaultValue={usuario.movil} maxLength={12} />
                     </div>
 
-                    <button className={ usuario.rol === "Administrador"? "boton boton_admin": "boton boton-dashboard"}
->
+                    <button className={ usuario.rol === "Administrador"? "boton boton_admin": "boton boton-dashboard"}>
                         Guardar cambios
                     </button>
 

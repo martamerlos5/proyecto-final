@@ -34,7 +34,6 @@ public interface EventoService {
     // GET: obtener todos los eventos por una localidad (filtro)
     public List<EventoDTO> obtenerEventosPorLocalidad(Long id);
 
-    
     // GET: obtener todos los eventos por precio descendente (filtro)
     public List<EventoDTO> obtenerEventosPorPrecioDescendente();
 
@@ -43,8 +42,20 @@ public interface EventoService {
 
     // ------------- POST -------------
 
-    // POST: crear evento (el evento viene en formato JSON) -> para admins
+    // // POST: crear evento (el evento viene en formato JSON) -> para admins
     public EventoDTO crearEvento(EventoDTO eventoDTO);
+
+    // EventoDTO crearEventoMultipart(
+    // String nombre,
+    // String descripcion,
+    // String fecha_inicio,
+    // String fecha_fin,
+    // String hora_inicio,
+    // String hora_fin,
+    // String lugar,
+    // Long localidadId,
+    // List<Long> categoriasId,
+    // MultipartFile imagen);
 
     // ------------- PUT -------------
 
@@ -55,8 +66,6 @@ public interface EventoService {
 
     // DELETE: eliminar evento -> para admins
     public void eliminarEvento(Long id);
-
-
 
     // EXTRA
     // validar que las fechas y las horas sean correctas

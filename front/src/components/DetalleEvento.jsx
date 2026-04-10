@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-
+import { toast } from "react-toastify";
 
 delete L.Icon.Default.prototype._getIconUrl;
 
@@ -16,9 +16,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "https://unpkg.com/leaflet/dist/images/marker-shadow.png",
 });
 
-
 const cache = {};
-
 
 async function obtenerCoordenadas(direccion) {
   if (cache[direccion]) return cache[direccion];
@@ -44,27 +42,22 @@ function DetalleEvento() {
   const { id } = useParams();
   const [evento, setEvento] = useState(null);
 
-  // entradas
   const [entr, setEntradas] = useState([]);
   const [cantidades, setCantidades] = useState({});
 
-  // coordenadas
   const [coords, setCoords] = useState(null);
 
-  // get evento
   useEffect(() => {
     fetch(`http://localhost:8080/eventos/${id}`)
       .then((res) => res.json())
       .then((data) => setEvento(data));
   }, [id]);
 
-  // get entradas
   useEffect(() => {
     fetch(`http://localhost:8080/tipos-entrada/evento/${id}`)
       .then((res) => res.json())
       .then((data) => setEntradas(data));
   }, [id]);
-
 
   useEffect(() => {
     if (evento) {
@@ -76,7 +69,6 @@ function DetalleEvento() {
     }
   }, [evento]);
 
-  // función para sumar
   const sumar = (idEntrada) => {
     setCantidades((prev) => ({
       ...prev,
@@ -84,7 +76,6 @@ function DetalleEvento() {
     }));
   };
 
-  // función para restar
   const restar = (idEntrada) => {
     setCantidades((prev) => ({
       ...prev,
@@ -105,7 +96,7 @@ function DetalleEvento() {
       }));
 
     if (entradas.length === 0) {
-      alert("Selecciona al menos una entrada");
+      toast.error("Selecciona al menos una entrada");
       return;
     }
 
@@ -131,7 +122,7 @@ function DetalleEvento() {
 
     localStorage.setItem(cestaUsuario, JSON.stringify(nuevaCesta));
 
-    alert("Entradas añadidas a la cesta");
+    toast.success("Entradas añadidas a la cesta");
   };
 
   if (!evento) {
@@ -148,12 +139,16 @@ function DetalleEvento() {
             <img
               src={`/${evento.imagen}`}
               alt={evento.nombre}
-              className={ evento.estado === "Finalizado" || evento.estado === "Cancelado" ? "desactivado" : ""}/>
+              className={
+                evento.estado === "Finalizado" || evento.estado === "Cancelado"
+                  ? "desactivado"
+                  : ""
+              }
+            />
 
-            {(evento.estado === "Finalizado" || evento.estado === "Cancelado") && (
-              <div className="overlay-estado">
-                {evento.estado}
-              </div>
+            {(evento.estado === "Finalizado" ||
+              evento.estado === "Cancelado") && (
+              <div className="overlay-estado">{evento.estado}</div>
             )}
           </div>
 
@@ -162,7 +157,10 @@ function DetalleEvento() {
           </div>
 
           <div className="info">
-            <p><strong>Dónde:</strong> {evento.lugar} ({evento.localidadNombre})</p>
+            <p>
+              <strong>Dónde:</strong> {evento.lugar} (
+              {evento.localidadNombre})
+            </p>
             <p>
               <strong>Cuándo:</strong>{" "}
               {new Date(evento.fecha_inicio).toLocaleDateString()}
@@ -173,19 +171,17 @@ function DetalleEvento() {
             </p>
           </div>
 
-
           <div className="description-title">
             Descripción del evento:
           </div>
 
-          <div className="description">
-            {evento.descripcion}
-          </div>
+          <div className="description">{evento.descripcion}</div>
 
           <div className="caja-entradas">
             <h2 className="titulo-entradas">ENTRADAS</h2>
 
-            {(evento.estado === "Finalizado" || evento.estado === "Cancelado") ? (
+            {evento.estado === "Finalizado" ||
+            evento.estado === "Cancelado" ? (
               <div className="evento-finalizado">
                 {evento.estado === "Finalizado" && (
                   <>
@@ -221,9 +217,13 @@ function DetalleEvento() {
                     </div>
 
                     <div className="contador">
-                      <button onClick={() => restar(entrada.id)}>-</button>
+                      <button onClick={() => restar(entrada.id)}>
+                        -
+                      </button>
                       <span>{cantidades[entrada.id] || 0}</span>
-                      <button onClick={() => sumar(entrada.id)}>+</button>
+                      <button onClick={() => sumar(entrada.id)}>
+                        +
+                      </button>
                     </div>
                   </div>
                 ))}
@@ -238,8 +238,6 @@ function DetalleEvento() {
             )}
           </div>
 
-
-          {/* mapa */}
           <h3> Ubicación del evento</h3>
           {coords && (
             <MapContainer

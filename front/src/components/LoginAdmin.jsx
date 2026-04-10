@@ -2,6 +2,8 @@ import { Link, useNavigate } from "react-router-dom";
 import Header from "./shared/Header";
 import Newsletter from "./shared/Newsletter";
 import Footer from "./shared/Footer";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Login() {
 
@@ -19,7 +21,6 @@ function Login() {
     const datosJSON = JSON.stringify(obj)
     const url = "http://localhost:8000/api/login-admin"
 
-
     fetch(url, {
       method: "POST",
       body: datosJSON,
@@ -33,20 +34,17 @@ function Login() {
         console.log(response)
         if (response.usuario) {
           localStorage.setItem("usuario", JSON.stringify(response.usuario))
-          alert(`Bienvenido/a, ${response.usuario.nombre}`)
+          toast.success(`Bienvenido/a, ${response.usuario.nombre}`)
           navigate("/")
         } else {
-          alert(response.error)
+          toast.error(response.error)
         }
       })
   }
 
-
-
   return (
     <div>
       <Header />
-
 
       <div className="login">
         <h2>INICIAR SESIÓN</h2>
@@ -63,7 +61,6 @@ function Login() {
           <button type="submit" className="boton boton_admin"> Iniciar Sesión </button>
         </form>
 
-
         <div className="registrarse">
           <p>
             <Link to="/registro-admin"> Registro de administradores </Link>
@@ -71,12 +68,10 @@ function Login() {
           <br />
         </div>
 
-
       </div>
 
       <Newsletter />
       <Footer />
-
 
     </div>
   );

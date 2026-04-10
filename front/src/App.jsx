@@ -32,77 +32,89 @@ import Cupones from "./components/dashboard/Cupones";
 import CrearEntradas from "./components/dashboard-admin/CrearEntradas";
 import VerEntradas from "./components/dashboard-admin/VerEntradas";
 import EditarEntrada from "./components/dashboard-admin/EditarEntrada";
+import { ToastContainer } from "react-toastify";
 
 
 
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Index />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/login-admin" element={<LoginAdmin />} />
-      <Route path="/registro" element={<Registro />} />
-      <Route path="registro-admin" element={<RegistroAdmin />} />
-      <Route path="/eventos" element={<Eventos />} />
-      <Route path="/eventos/:id" element={<DetalleEvento />} />
+    <>
+      <ToastContainer position="bottom-right"
+        autoClose={2500}
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme="colored" />
 
-      <Route path="/cesta" element={<Cesta />} />
-      <Route path="/contacto" element={<Contacto />} />
-      <Route path="/contrasenaOlvidada" element={<ContrasenaOlvidada />} />
-      <Route path="/cambiar-password/:id" element={<PasswordCambiar />} />
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/login-admin" element={<LoginAdmin />} />
+        <Route path="/registro" element={<Registro />} />
+        <Route path="registro-admin" element={<RegistroAdmin />} />
+        <Route path="/eventos" element={<Eventos />} />
+        <Route path="/eventos/:id" element={<DetalleEvento />} />
+
+        <Route path="/cesta" element={<Cesta />} />
+        <Route path="/contacto" element={<Contacto />} />
+        <Route path="/contrasenaOlvidada" element={<ContrasenaOlvidada />} />
+        <Route path="/cambiar-password/:id" element={<PasswordCambiar />} />
 
 
 
-      {/* rutas para el dashboard de cliente */}
-      <Route path="/dashboard" element={<RutaProtegida rol="Cliente" />}>
-        <Route element={<Dashboard />}>
-          <Route index element={<EditarPerfil />} />
-          <Route path="direccion" element={<EditarDireccion />} />
-          <Route path="password" element={<CambiarPassword />} />
-          <Route path="entradas" element={<MisEntradas />} />
-          <Route path="cupones" element={<Cupones />} />
-          <Route path="eliminar" element={<EliminarCuenta />} />
+        {/* rutas para el dashboard de cliente */}
+        <Route path="/dashboard" element={<RutaProtegida rol="Cliente" />}>
+          <Route element={<Dashboard />}>
+            <Route index element={<EditarPerfil />} />
+            <Route path="direccion" element={<EditarDireccion />} />
+            <Route path="password" element={<CambiarPassword />} />
+            <Route path="entradas" element={<MisEntradas />} />
+            <Route path="cupones" element={<Cupones />} />
+            <Route path="eliminar" element={<EliminarCuenta />} />
+          </Route>
         </Route>
-      </Route>
 
-      {/* rutas para el dashboard de admin */}
-      <Route path="/dashboard-admin" element={<RutaProtegida rol="Administrador" />}>
-        <Route element={<DashboardAdmin />}>
-          <Route index element={<EditarPerfil />} />
-          <Route path="direccion" element={<EditarDireccion />} />
+        {/* rutas para el dashboard de admin */}
+        <Route path="/dashboard-admin" element={<RutaProtegida rol="Administrador" />}>
+          <Route element={<DashboardAdmin />}>
+            <Route index element={<EditarPerfil />} />
+            <Route path="direccion" element={<EditarDireccion />} />
 
-          <Route path="eventos">
-            <Route index element={<VerEventos />} />
-            <Route path="crear" element={<CrearEvento />} />
-            <Route path="editar/:id" element={<EditarEvento />} />
-            <Route path="editar/:id/entradas/ver" element={<VerEntradas />} />
-            <Route path="editar/:id/entradas/ver/crear" element={<CrearEntradas />} />
-            <Route path="editar/:id/entradas/ver/editar/:entradaId" element={<EditarEntrada />} />
+            <Route path="eventos">
+              <Route index element={<VerEventos />} />
+              <Route path="crear" element={<CrearEvento />} />
+              <Route path="editar/:id" element={<EditarEvento />} />
+              <Route path="editar/:id/entradas/ver" element={<VerEntradas />} />
+              <Route path="editar/:id/entradas/ver/crear" element={<CrearEntradas />} />
+              <Route path="editar/:id/entradas/ver/editar/:entradaId" element={<EditarEntrada />} />
+
+            </Route>
+
+            <Route path="estadisticas" element={<Estadisticas />} />
+            <Route path="usuarios" element={<VerUsuarios />} />
+            <Route path="eliminar" element={<EliminarCuenta />} />
 
           </Route>
 
-          <Route path="estadisticas" element={<Estadisticas />} />
-          <Route path="usuarios" element={<VerUsuarios />} />
-          <Route path="eliminar" element={<EliminarCuenta />} />
-
         </Route>
 
-      </Route>
 
 
+        <Route path="/resultados" element={<Resultados />} />
+        <Route path="/eventos/categoria/:id" element={<Resultados />} />
+        <Route path="/eventos/localidad/:id" element={<Resultados />} />
 
-      <Route path="/resultados" element={<Resultados />} />
-      <Route path="/eventos/categoria/:id" element={<Resultados />} />
-      <Route path="/eventos/localidad/:id" element={<Resultados />} />
-
-      <Route path="politica-privacidad" element={<PoliticaPrivacidad />} />
-      <Route path="terminos-condiciones" element={<Terminos />} />
+        <Route path="politica-privacidad" element={<PoliticaPrivacidad />} />
+        <Route path="terminos-condiciones" element={<Terminos />} />
 
 
-      <Route path="pasarela" element={<Pasarela />} />
+        <Route path="pasarela" element={<Pasarela />} />
 
-    </Routes>
+      </Routes>
+    </>
   );
 }
 

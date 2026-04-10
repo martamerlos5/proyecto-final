@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
+import { toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 function CrearEvento() {
 
@@ -38,9 +40,9 @@ function CrearEvento() {
         setLocalidades([...localidades, data])
         setLocalidadSeleccionada(data.id)
         setNuevaLocalidad("")
-        alert("Localidad creada")
+        toast.success("Localidad creada")
       })
-      .catch(() => alert("Error al crear localidad"))
+      .catch(() => toast.error("Error al crear localidad"))
   }
 
   const crearCategoria = () => {
@@ -56,9 +58,9 @@ function CrearEvento() {
         setCategorias([...categorias, data])
         setCategoriasSeleccionadas([...categoriasSeleccionadas, data.id])
         setNuevaCategoria("")
-        alert("Categoría creada")
+        toast.success("Categoría creada")
       })
-      .catch(() => alert("Error al crear categoría"))
+      .catch(() => toast.error("Error al crear categoría"))
   }
 
 
@@ -82,17 +84,17 @@ function CrearEvento() {
     const hoy = new Date().toISOString().split("T")[0]
 
     if (datos.fecha_inicio < hoy) {
-      alert("La fecha de inicio no puede ser anterior a hoy")
+      toast.error("La fecha de inicio no puede ser anterior a hoy")
       return
     }
 
     if (datos.fecha_fin < datos.fecha_inicio) {
-      alert("La fecha de fin no puede ser anterior a la de fecha de inicio")
+      toast.error("La fecha de fin no puede ser anterior a la de fecha de inicio")
       return;
     }
 
     if (datos.fecha_inicio === datos.fecha_fin && datos.hora_fin < datos.hora_inicio) {
-      alert("La hora de fin no puede ser anterior a la hora de inicio")
+      toast.error("La hora de fin no puede ser anterior a la hora de inicio")
       return
     }
 
@@ -110,10 +112,10 @@ function CrearEvento() {
       })
       .then(data => {
         console.log(data)
-        alert("Evento creado correctamente")
+        toast.success("Evento creado correctamente")
       })
       .catch(error => {
-        alert("Error al crear el evento")
+        toast.error("Error al crear el evento")
         console.error(error)
       })
   }
@@ -197,3 +199,5 @@ function CrearEvento() {
 }
 
 export default CrearEvento
+
+

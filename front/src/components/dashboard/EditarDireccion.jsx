@@ -1,4 +1,7 @@
 import { useOutletContext } from "react-router-dom"
+import { toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+
 
 function EditarDireccion() {
     const { usuario } = useOutletContext()
@@ -29,23 +32,21 @@ function EditarDireccion() {
                 console.log(response);
 
                 if (response.usuario) {
-                    alert("Dirección actualizada");
+                    toast.success("Dirección actualizada");
 
                     localStorage.setItem("usuario", JSON.stringify(response.usuario));
                     
                     window.location.reload();
                 } else {
-                    alert(response.error || "Error al actualizar dirección");
+                    toast.error(response.error || "Error al actualizar dirección");
                 }
             })
             .catch(error => {
                 console.error(error);
-                alert("Error de conexión");
+                toast.error("Error de conexión");
             });
 
-
     }
-
 
     return (
         <section className="dashboard_seccion">

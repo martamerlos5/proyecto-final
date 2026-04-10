@@ -1,5 +1,9 @@
 import { useLocation } from "react-router-dom";
 
+
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function Newsletter() {
 
     const location = useLocation()
@@ -29,15 +33,15 @@ function Newsletter() {
                 return response.json();
             })
             .then(data => {
-                alert("¡Ya formas parte de nuestra familia!");
+                toast.success("¡Ya formas parte de nuestra familia!");
                 ev.target.reset();
             })
             .catch(error => {
                 if (error.errors && error.errors.email) {
-                    alert("Este email ya está suscrito");
+                    toast.error("Este email ya está suscrito");
                 } else {
                     console.error("Error técnico:", error);
-                    alert("No se pudo conectar con el servidor");
+                    toast.error("No se pudo conectar con el servidor");
                 }
             });
     }

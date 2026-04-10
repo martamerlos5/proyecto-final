@@ -2,6 +2,9 @@ import { useNavigate } from "react-router-dom";
 import Footer from "./shared/Footer";
 import Header from "./shared/Header";
 
+import { toast } from "react-toastify";
+
+
 function Registro() {
   const navigate = useNavigate();
 
@@ -10,12 +13,9 @@ function Registro() {
 
     // mensaje de error si las contraseñas no coinciden
     if (ev.target.password.value !== ev.target.password_confirmation.value) {
-      alert("Las contraseñas no coinciden");
+      toast.error("Las contraseñas no coinciden");
       return;
     }
-
-    
-
 
     const obj = {
       email: ev.target.email.value,
@@ -31,9 +31,10 @@ function Registro() {
       direccion: ev.target.direccion.value,
       codigo_postal: ev.target.codigo_postal.value,
       movil: ev.target.movil.value,
+      
       // con 'terminos' y 'newsletter' en vez de value -> checked
       terminos: ev.target.terminos.checked,
-      newsletter:ev.target.newsletter.checked
+      newsletter: ev.target.newsletter.checked
     };
 
     const datosJSON = JSON.stringify(obj);
@@ -54,16 +55,16 @@ function Registro() {
         console.log(response);
 
         if (response.usuario) {
-          alert("Cuenta creada correctamente");
+          toast.success("Cuenta creada correctamente");
           navigate("/");
         } else {
-          alert(response.error);
+          toast.error(response.error);
         }
 
       })
       .catch(error => {
         console.error(error);
-        alert("Error al conectar con el servidor")
+        toast.error("Error al conectar con el servidor")
       })
   }
 
@@ -79,8 +80,8 @@ function Registro() {
             <input type="email" placeholder="Email*" name="email" required />
             <input type="text" placeholder="Nombre de usuario*" name="username" required />
 
-            <input type="password" placeholder="Contraseña*" name="password" required />
-            <input type="password" placeholder="Repetir contraseña*" name="password_confirmation" required />
+            <input type="password" placeholder="Contraseña*" name="password" required minLength={5} />
+            <input type="password" placeholder="Repetir contraseña*" name="password_confirmation" required minLength={5}/>
 
             <input type="text" placeholder="Nombre*" name="nombre" required />
             <input type="text" placeholder="Apellido 1*" name="apellido1" required />
@@ -111,9 +112,6 @@ function Registro() {
             <button className="boton">Registrarse</button>
 
           </form>
-
-
-
 
         </div>
       </section>

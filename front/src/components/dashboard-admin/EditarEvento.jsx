@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+
 
 function EditarEvento() {
   const { id } = useParams();
@@ -52,9 +54,9 @@ function EditarEvento() {
         setLocalidades([...localidades, data]);
         setLocalidadSeleccionada(data.id);
         setNuevaLocalidad("");
-        alert("Localidad creada");
+        toast.success("Localidad creada");
       })
-      .catch(() => alert("Error al crear localidad"));
+      .catch(() => toast.error("Error al crear localidad"));
   }
 
   const crearCategoria = () => {
@@ -70,9 +72,9 @@ function EditarEvento() {
         setCategorias([...categorias, data]);
         setCategoriasSeleccionadas([...categoriasSeleccionadas, data.id]);
         setNuevaCategoria("");
-        alert("Categoría creada");
+        toast.success("Categoría creada");
       })
-      .catch(() => alert("Error al crear categoría"));
+      .catch(() => toast.error("Error al crear categoría"));
   }
 
 
@@ -100,8 +102,8 @@ function EditarEvento() {
       headers: { "Content-Type": "application/json", "Accept": "application/json" }
     })
       .then(res => res.json())
-      .then(() => alert("Evento actualizado correctamente"))
-      .catch(() => alert("Error al actualizar"));
+      .then(() => toast.success("Evento actualizado correctamente"))
+      .catch(() => toast.error("Error al actualizar"));
   }
 
   if (!evento) return <p>Cargando evento...</p>;

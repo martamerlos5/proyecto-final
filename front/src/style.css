@@ -1830,3 +1830,8 @@
     .link:hover{
       text-decoration: underline;
     }
+
+
+    .estilos-warn{
+      color:var(--negro);
+    }
